@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "deploy": "./deploy.sh && rm -rf dist"
   },
   "dependencies": {
     "@emotion/react": "^11.10.5",
