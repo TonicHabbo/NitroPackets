@@ -46,25 +46,39 @@ export default function ParserView()
 
         options.forEach((val, ind) =>
         {
-            str += `this._${val.key} = `
-            switch (val.type.toLowerCase())
+            str += `this._${val.key} = `;
+
+            if (val.type.includes("[]"))
             {
-                case "string":
-                    str += `wrapper.readString();`;
-                    break;
-                case "string[]":
-                    str += `this._${val.key} = [];
+                str += `this._${val.key} = [];
         let ${val.key}Count = wrapper.readInt();
 
         while(${val.key}Count > 0) {
-            this._${val.key}.push(wrapper.readString())
-            ${val.key}Count--
-        }`;
+            this._${val.key}.push(`;
+            }
+            
+            switch (val.type.toLowerCase().split("[]")[0])
+            {
+                case "string":
+                    str += `wrapper.readString()`;
+                    break;
                     break;
                 case "number":
                 case "int":
-                    str += `wrapper.readInt();`
+                    str += `wrapper.readInt()`
+                    break;
+                default:
+                    str += null;
             }
+
+            if (val.type.includes("[]"))
+            {
+                str += `);
+            ${val.key}Count--
+        }`;
+            } else str += `;`
+
+
 
             if (ind !== (options.length - 1)) str += `
         

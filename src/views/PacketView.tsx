@@ -14,7 +14,12 @@ export default function PacketView()
         options.forEach((val,ind) =>
         { 
             construct += `${val.key}: ${val.type}`
-            opts += val.key;
+
+            if (val.type.includes("[]"))
+            {
+                opts += `${val.key}.length, ...${val.key}`;
+            } else opts += val.key;
+            
             if (ind !== (options.length - 1))
             {
                 construct += ', '
